@@ -1,0 +1,17 @@
+route:
+  receiver: email_receiver
+  group_wait: 10s
+  group_interval: 5m
+  repeat_interval: 1h
+
+receivers:
+  - name: email_receiver
+    email_configs:
+      - to: "afekeng1@gmail.com"
+        from: "afekeng@gmail.com"
+        smarthost: "smtp.gmail.com:587"
+        auth_username: "afekeng@gmail.com"
+        auth_identity: "afekeng@gmail.com"
+        auth_password: "ydbd gsva havc ibtr"
+        require_tls: true
+

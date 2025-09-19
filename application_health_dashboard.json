@@ -1,0 +1,74 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Application Health",
+    "panels": [
+      {
+        "title": "Request Rate (req/sec)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total[5m])",
+            "legendFormat": "Requests"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 0, "w": 24, "h": 8 }
+      },
+      {
+        "title": "Error Rate (%)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{status=~\"5..\"}[5m]) / rate(http_requests_total[5m])",
+            "legendFormat": "Error Rate (5xx)"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 8, "w": 24, "h": 8 }
+      },
+      {
+        "title": "Error Rate (Custom)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_errors_total[5m]) / rate(http_requests_total[5m])",
+            "legendFormat": "Error Rate (errors_total)"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 16, "w": 24, "h": 8 }
+      },
+      {
+        "title": "Latency (p50, p90, p99)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.5, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
+            "legendFormat": "p50"
+          },
+          {
+            "expr": "histogram_quantile(0.9, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
+            "legendFormat": "p90"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
+            "legendFormat": "p99"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 24, "w": 24, "h": 8 }
+      },
+      {
+        "title": "App Uptime",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=\"myapp\"}",
+            "legendFormat": "Uptime"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 32, "w": 24, "h": 6 }
+      }
+    ],
+    "schemaVersion": 36,
+    "version": 2
+  }
+}
+

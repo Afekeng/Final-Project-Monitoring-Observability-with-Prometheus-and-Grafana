@@ -1,0 +1,58 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "System Health",
+    "panels": [
+      {
+        "title": "CPU Usage (%)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+            "legendFormat": "CPU Usage"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 0, "w": 24, "h": 8 }
+      },
+      {
+        "title": "Memory Usage (%)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)",
+            "legendFormat": "Memory Usage"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 8, "w": 24, "h": 8 }
+      },
+      {
+        "title": "Disk Usage (%)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "(node_filesystem_size_bytes{fstype!=\"tmpfs\"} - node_filesystem_free_bytes{fstype!=\"tmpfs\"}) / node_filesystem_size_bytes{fstype!=\"tmpfs\"}",
+            "legendFormat": "Disk Usage"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 16, "w": 24, "h": 8 }
+      },
+      {
+        "title": "Network RX/TX (bytes/sec)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(node_network_receive_bytes_total[5m])",
+            "legendFormat": "RX"
+          },
+          {
+            "expr": "rate(node_network_transmit_bytes_total[5m])",
+            "legendFormat": "TX"
+          }
+        ],
+        "gridPos": { "x": 0, "y": 24, "w": 24, "h": 8 }
+      }
+    ],
+    "schemaVersion": 36,
+    "version": 1
+  }
+}

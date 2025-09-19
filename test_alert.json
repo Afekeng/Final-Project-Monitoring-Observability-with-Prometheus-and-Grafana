@@ -1,0 +1,15 @@
+[
+  {
+    "labels": {
+      "alertname": "TestAlert",
+      "severity": "critical"
+    },
+    "annotations": {
+      "summary": "This is a test alert",
+      "description": "Checking email delivery from Alertmanager"
+    },
+    "startsAt": "2025-09-18T14:00:00Z",
+    "endsAt": "2025-09-18T14:10:00Z"
+  }
+]
+

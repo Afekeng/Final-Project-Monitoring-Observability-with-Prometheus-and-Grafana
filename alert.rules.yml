@@ -1,0 +1,46 @@
+groups:
+  - name: CPU_Usage_Alerts
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 * (1 - avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))) > 80
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High CPU usage detected on {{ $labels.instance }}"
+          description: "CPU usage on instance {{ $labels.instance }} has been above 80% for the last 5 minutes."
+
+  - name: High_Error_Rate_Alerts
+    rules:
+      - alert: HighErrorRate
+        expr: (rate(http_requests_total{status=~"500|503"}[5m]) / rate(http_requests_total[5m])) * 100 > 5
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate detected on {{ $labels.instance }}"
+          description: "Error rate on instance {{ $labels.instance }} is above 5% for the last 5 minutes."
+
+  - name: service-latency-alerts
+    rules:
+      - alert: HighP99Latency
+        expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le)) > 1
+
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High P99 latency for {{ $labels.job }}"
+          description: "The 99th percentile request duration for job {{ $labels.job }} has been consistently above 1 second for 5 minutes."
+
+  - name: test_alert
+    rules:
+      - alert: TestEmail
+        expr: vector(1)
+        for: 1s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Test Alert"
+          description: "This is a test email from Alertmanager"
+
